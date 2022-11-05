@@ -8,6 +8,7 @@ set -e
 #   REALM
 #   USERNAME
 #   PASSWORD
+#   ADMIN
 #   ANONYMOUS_METHODS
 #   SSL_CERT
 
@@ -63,6 +64,12 @@ if [ ! -e "/user.passwd" ]; then
     fi
 fi
 
+# If specified, set the admin account.
+if [ "x$ADMIN" != "x" ]; then
+    sed -e "s|Require user admin|Require user $ADMIN|" \
+        -i "$HTTPD_PREFIX/conf/conf-available/dav.conf"
+fi
+
 # If specified, allow anonymous access to specified methods.
 if [ "x$ANONYMOUS_METHODS" != "x" ]; then
     if [ "$ANONYMOUS_METHODS" = "ALL" ]; then
@@ -103,4 +110,5 @@ fi
 [ ! -e "/var/lib/dav/DavLock" ] && touch "/var/lib/dav/DavLock"
 chown -R www-data:www-data "/var/lib/dav"
 
+chmod -R 777 "/var/lib/dav"
 exec "$@"
