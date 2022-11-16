@@ -111,5 +111,4 @@ fi
 chown -R www-data:www-data "/var/lib/dav"
 
 chmod -R 777 "/var/lib/dav"
-
 exec "$@"
