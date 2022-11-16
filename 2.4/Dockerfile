@@ -1,4 +1,4 @@
-FROM httpd:alpine
+FROM httpd:2.4.37-alpine
 
 # These variables are inherited from the httpd:alpine image:
 # ENV HTTPD_PREFIX /usr/local/apache2
@@ -52,4 +52,4 @@ RUN set -ex; \
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 EXPOSE 80/tcp 443/tcp
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-CMD [ "httpd-foreground" ]
+CMD ["httpd-foreground > /server.log 2>&1"]
