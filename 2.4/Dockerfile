@@ -52,4 +52,4 @@ RUN set -ex; \
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 EXPOSE 80/tcp 443/tcp
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-CMD ["httpd-foreground > /server.log 2>&1"]
+CMD [ "httpd-foreground" ]
