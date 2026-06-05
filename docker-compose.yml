@@ -1,0 +1,24 @@
+services:
+  webdav:
+    build:
+      context: ./2.4
+    image: docker-webdav:2.4
+    container_name: webdav
+    restart: unless-stopped
+    network_mode: pasta
+    ports:
+      - "${WEBDAV_HTTP_PORT:-80}:80"
+      # Enable this with SSL_CERT=selfsigned, or when mounting /cert.pem and /privkey.pem.
+      # - "${WEBDAV_HTTPS_PORT:-443}:443"
+    environment:
+      SERVER_NAMES: "${WEBDAV_SERVER_NAMES:-localhost}"
+      LOCATION: "${WEBDAV_LOCATION:-/}"
+      AUTH_TYPE: "${WEBDAV_AUTH_TYPE:-Basic}"
+      REALM: "${WEBDAV_REALM:-WebDAV}"
+      ADMIN: "${WEBDAV_ADMIN:-Admin}"
+      # USERNAME/PASSWORD are ignored when /user.passwd is mounted.
+      # ANONYMOUS_METHODS: "${WEBDAV_ANONYMOUS_METHODS:-}"
+      # SSL_CERT: "${WEBDAV_SSL_CERT:-selfsigned}"
+    volumes:
+      - "${WEBDAV_DATA_DIR:-./data}:/var/lib/dav"
+      - "${WEBDAV_PASSWORD_FILE:-./user.passwd}:/user.passwd:ro"
